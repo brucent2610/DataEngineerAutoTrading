@@ -1,0 +1,36 @@
+version: '3'
+services:
+  autotrading_progress_og:
+    build:
+      context: ./src/module_progress
+      dockerfile: ./docker/Dockerfile
+    volumes:
+      - ./src/module_progress:/app
+      - ./src/models:/app/models
+      - ./src/utils:/app/utils
+    command: python -u run.py
+    environment:
+      - BINANCE_API_KEY=${BINANCE_API_KEY}
+      - BINANCE_API_SECRET=${BINANCE_API_SECRET}
+      - SSI_API_KEY=${SSI_API_KEY}
+      - SSI_API_SECRET=${SSI_API_SECRET}
+
+  autotrading_trading_of:
+    build:
+      context: ./src/module_trading
+      dockerfile: ./docker/Dockerfile
+    volumes:
+      - ./src/module_trading:/app
+      - ./src/models:/app/models
+      - ./src/utils:/app/utils
+    command: python -u worker.py
+    environment:
+      - BINANCE_API_KEY=${BINANCE_API_KEY}
+      - BINANCE_API_SECRET=${BINANCE_API_SECRET}
+      - SSI_API_KEY=${SSI_API_KEY}
+      - SSI_API_SECRET=${SSI_API_SECRET}
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
