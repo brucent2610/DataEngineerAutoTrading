@@ -12,7 +12,7 @@ utils_directory = os.path.join(current_directory, 'utils')
 sys.path.append(models_directory)
 sys.path.append(utils_directory)
 
-from models.Binance import Binance
+from models.Binance import Spot, Future
 from models.SSI import SSI
 
 from utils.utils import test
@@ -30,8 +30,15 @@ if __name__ == "__main__":
     print(SSI_API_KEY)
     print(SSI_API_SECRET)
 
-    binance = Binance()
-    binance.load_data()
+    binanceSpot = Spot()
+    binanceSpot.load_data()
+    account_balance = binanceSpot.account_balance_more_than_zero()
+    binanceSpot.to_csv(data=account_balance, name="account_balance.csv")
+
+    binanceFuture = Future()
+    binanceFuture.load_data()
+    future_balance = binanceFuture.account_balance()
+    binanceFuture.to_csv(data=account_balance, name="balance_futures.csv")
 
     ssi = SSI()
     ssi.load_data()

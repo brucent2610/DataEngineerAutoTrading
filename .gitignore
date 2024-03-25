@@ -1,3 +1,5 @@
 .env
 
 **/__pycache__/*
+src/module_progress/data/*
+src/module_trading/data/*
