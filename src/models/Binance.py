@@ -17,8 +17,18 @@ class Binance:
             }
         )
 
-    def load_data(self):
-        print("Loading data from Binance")
+    def ohlcv(self, from_date='2021-01-01', to_date='2021-01-02', symbol='BTC/USDT', timeframe='1d'):
+
+        since = self._exchange.parse8601(from_date + 'T00:00:00Z')
+        end = self._exchange.parse8601(to_date + 'T00:00:00Z')
+
+        ohlcv = self._exchange.fetch_ohlcv(symbol, timeframe=timeframe, since=since, limit=1000)
+
+        data = pd.DataFrame(ohlcv, columns=['Timestamp', 'Open', 'High', 'Low', 'Close', 'Volume'])
+        data['Timestamp'] = pd.to_datetime(data['Timestamp'], unit='ms')         
+        data = data.rename(columns={'Timestamp': 'Datetime'})
+
+        return data
 
     def account_balance(self):
         timestamp = int(time.time() * 1000)
