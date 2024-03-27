@@ -25,7 +25,13 @@ class Binance:
         ohlcv = self._exchange.fetch_ohlcv(symbol, timeframe=timeframe, since=since, limit=1000)
 
         data = pd.DataFrame(ohlcv, columns=['Timestamp', 'Open', 'High', 'Low', 'Close', 'Volume'])
-        data['Timestamp'] = pd.to_datetime(data['Timestamp'], unit='ms')         
+        data['Timestamp'] = pd.to_datetime(data['Timestamp'], unit='ms')
+        # Giả sử 'data' là DataFrame của bạn với dữ liệu lịch sử giá cổ phiếu
+        data['Open'] = pd.to_numeric(data['Open'], errors='coerce')
+        data['High'] = pd.to_numeric(data['High'], errors='coerce')
+        data['Low'] = pd.to_numeric(data['Low'], errors='coerce')
+        data['Close'] = pd.to_numeric(data['Close'], errors='coerce')
+        data['Volume'] = pd.to_numeric(data['Volume'], errors='coerce')
         data = data.rename(columns={'Timestamp': 'Datetime'})
 
         return data

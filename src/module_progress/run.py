@@ -18,6 +18,7 @@ sys.path.append(utils_directory)
 from models.Binance import Spot
 from strategies.MAATG import MAATG
 from strategies.BollingerBands import BollingerBands
+from strategies.LongLeggedDoji import LongLeggedDoji
 
 BINANCE_API_KEY = os.getenv("BINANCE_API_KEY")
 BINANCE_API_SECRET = os.getenv("BINANCE_API_SECRET")
@@ -63,4 +64,10 @@ if __name__ == "__main__":
     )
     strategy_bollinger_bands_result = strategy_bollinger_bands.apply(account_balance)
     strategy_bollinger_bands.to_csv(data=strategy_bollinger_bands_result, name="bollinger_bands.csv")
+
+    strategy_long_legged_doji = LongLeggedDoji(
+        threshold=0.1
+    )
+    strategy_long_legged_doji_result = strategy_long_legged_doji.apply(account_balance)
+    strategy_long_legged_doji.to_csv(data=strategy_long_legged_doji_result, name="long_legged_doji.csv")
 

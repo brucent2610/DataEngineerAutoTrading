@@ -1,4 +1,6 @@
-class MAATG:
+from strategies.Strategies import Strategies
+
+class MAATG(Strategies):
     def __init__(self, short_window, long_window, period=14, threshold=50):
         # Set time for MA and ATR
         self._short_window = short_window
@@ -32,6 +34,3 @@ class MAATG:
         data['Sell_Signal'] = (data['MA_Fast'] < data['MA_Slow']) & (data['ATR'] <= self._threshold)
 
         return data
-    
-    def to_csv(self, data, name="default.csv", path='data/'):
-        data.to_csv(path + name)

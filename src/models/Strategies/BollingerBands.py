@@ -1,4 +1,6 @@
-class BollingerBands:
+from strategies.Strategies import Strategies
+
+class BollingerBands(Strategies):
 
     def __init__(self, window=20, window_rsi=14):
         self._window = window
@@ -33,6 +35,3 @@ class BollingerBands:
         data['Sell_Signal'] = ((data['Close'] >= data['Upper_Band']) & (data['RSI'] > 70))
 
         return data
-    
-    def to_csv(self, data, name="default.csv", path='data/'):
-        data.to_csv(path + name)
